@@ -1,0 +1,6 @@
+requests
+selenium
+beautifulsoup4
+hazelcast-python-client
+kafka-python
+flask-classy
