@@ -24,6 +24,9 @@ logging.basicConfig(level=os.environ.get("LOGLEVEL", "DEBUG"))
 
 
 if __name__ == '__main__':
+     args = parser.parse_args()
+     if args.start_browser:
+         bt = beginBrowserThread()
      cc = CaptureCrawler()
      cc.main()
 
