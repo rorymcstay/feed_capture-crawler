@@ -4,6 +4,8 @@ USER root
 RUN apt-get update && \
  apt-get -y install python3-pip
 
+RUN apt-get update && \
+ apt-get -y install git
 #===================================
 # Application files
 #===================================
@@ -17,6 +19,13 @@ ADD requirements.txt ./requirements.txt
 RUN which python
 RUN python3 -m pip install -r ./requirements.txt
 
+
+#====================================
+# generate a hosts file which blocks
+# adds to improve performance
+#====================================
+RUN git clone https://github.com/StevenBlack/hosts.git hosts_file_gen
+RUN cd hosts_file_gen && python3 -m pip install -r ./requirements.txt && python3 updateHostsFile.py --auto --replace && cd /usr/capture-crawler
 
 # Installing packages
 # Copying over necessary files

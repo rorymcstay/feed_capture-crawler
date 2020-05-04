@@ -29,9 +29,10 @@ class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserServi
             return
         sleep(1)
         logging.info(f'posting sample source of length {len(self.driver.page_source)}')
-        requests.post('http://{host}:{port}/samplepages/setExampleSource/{name}/{position}'.format(name=actionReturn.action.name, position=actionReturn.action.position+1, **nanny_params), data=self.driver.page_source.encode('utf-8'))
+        requests.post('http://{host}:{port}/samplepages/setExampleSource/{name}/{position}'.format(name=actionReturn.name, position=actionReturn.action.position, **nanny_params), data=self.driver.page_source.encode('utf-8'))
 
     def initialiseCallback(self, actionReturn: BrowserActions.Return, *args, **kwargs):
+        logging.info(f'setting position=[{0}], name=[{actionReturn.name}]')
         requests.post('http://{host}:{port}/samplepages/setExampleSource/{name}/{position}'.format(name=actionReturn.name, position=0, **nanny_params), data=self.driver.page_source.encode('utf-8'))
 
 if __name__ == '__main__':
