@@ -1,7 +1,7 @@
 from time import sleep
 import requests
 
-from feed.actionchains import KafkaActionPublisher, KafkaActionSubscription
+from feed.actionchains import KafkaActionPublisher, KafkaActionSubscription, ActionChain
 from feed.crawling import BrowserService, BrowserActions
 from feed.settings import nanny_params
 
@@ -30,6 +30,10 @@ class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserServi
         sleep(1)
         logging.info(f'posting sample source of length {len(self.driver.page_source)}')
         requests.post('http://{host}:{port}/samplepages/setExampleSource/{name}/{position}'.format(name=actionReturn.name, position=actionReturn.action.position, **nanny_params), data=self.driver.page_source.encode('utf-8'))
+
+    def onChainEndCallback(self, chain: ActionChain, ret):
+        chain.repeating = False
+
 
     def initialiseCallback(self, actionReturn: BrowserActions.Return, *args, **kwargs):
         logging.info(f'setting position=[{0}], name=[{actionReturn.name}]')

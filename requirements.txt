@@ -1,4 +1,4 @@
-feed-utils==0.3.31
+feed-utils==0.3.32
 requests
 selenium
 beautifulsoup4
