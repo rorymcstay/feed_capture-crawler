@@ -27,7 +27,7 @@ class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserServi
         if actionReturn is None:
             logging.warning(f'nothing returned for onClickActionCallback')
             return
-        sleep(1)
+        sleep(3)
         logging.info(f'posting sample source of length {len(self.driver.page_source)}')
         requests.post('http://{host}:{port}/samplepages/setExampleSource/{name}/{position}'.format(name=actionReturn.name, position=actionReturn.action.position, **nanny_params), data=self.driver.page_source.encode('utf-8'))
 
