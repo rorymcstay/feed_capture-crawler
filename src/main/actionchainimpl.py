@@ -32,6 +32,7 @@ class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserServi
         requests.post('http://{host}:{port}/samplepages/setExampleSource/{name}/{position}'.format(name=actionReturn.name, position=actionReturn.action.position, **nanny_params), data=self.driver.page_source.encode('utf-8'))
 
     def onChainEndCallback(self, chain: ActionChain, ret):
+        logging.info(f'chain has returned')
         chain.repeating = False
 
 
