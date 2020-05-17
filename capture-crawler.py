@@ -16,7 +16,8 @@ logging.getLogger("selenium").setLevel(logging.WARNING)
 
 
 
-logging.basicConfig(level=os.environ.get("LOGLEVEL", "DEBUG"))
+logging.info("\n".join([f'{key}={os.environ[key]}' for key in os.environ]))
+
 
 
 
