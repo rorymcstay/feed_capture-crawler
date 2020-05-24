@@ -1,9 +1,11 @@
 from time import sleep
 import requests
+import os
 
 from feed.actionchains import KafkaActionPublisher, KafkaActionSubscription, ActionChain
 from feed.crawling import BrowserService, BrowserActions
 from feed.settings import nanny_params
+
 
 from feed.logger import getLogger
 
