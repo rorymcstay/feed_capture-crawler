@@ -21,7 +21,7 @@ logging= getLogger(__name__)
 class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserService):
 
     def __init__(self):
-        queue = f'{os.getenv("KAFKA_TOPIC_PREFIX", "u")}-sample-queue'
+        queue = f'sample-queue'
         logging.info(f'subscribing to {queue}')
         KafkaActionSubscription.__init__(self, topic=queue, implementation=BrowserActions)
         BrowserService.__init__(self)
