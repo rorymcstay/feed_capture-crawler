@@ -27,22 +27,22 @@ class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserServi
         BrowserService.__init__(self)
         KafkaActionPublisher.__init__(self)
 
-    def onClickActionCallback(self, actionReturn: BrowserActions.Return):
+    def onClickActionCallback(self, actionReturn: BrowserActions.Return, *args, **kwargs):
         if actionReturn is None:
             logging.warning(f'nothing returned for onClickActionCallback')
             return
         sleep(3)
         logging.info(f'posting sample source of length {len(self.driver.page_source)}')
-        requests.post('http://{host}:{port}/samplepages/setExampleSource/{name}/{position}'.format(name=actionReturn.name, position=actionReturn.action.position, **nanny_params), data=self.driver.page_source.encode('utf-8'))
+        kwargs.get('chain').nannyClient.post(f'/samplepages/setExampleSource/{name}/{actionReturn.action.position}',
+                                             data=self.driver.page_source.encode('utf-8'))
 
-    def onChainEndCallback(self, chain: ActionChain, ret):
+    def onChainEndCallback(self, chain: ActionChain, ret, *args, **kwargs):
         logging.info(f'chain has returned')
         chain.repeating = False
 
-
     def initialiseCallback(self, actionReturn: BrowserActions.Return, *args, **kwargs):
         logging.info(f'setting position=[{0}], name=[{actionReturn.name}]')
-        requests.post('http://{host}:{port}/samplepages/setExampleSource/{name}/{position}'.format(name=actionReturn.name, position=0, **nanny_params), data=self.driver.page_source.encode('utf-8'))
+        kwargs.get('chain').nannyClient.post(f'/samplepages/setExampleSource/{name}/0', payload=self.driver.page_source.encode('utf-8'))
 
     def cleanUp(self):
         self._browser_clean_up()
