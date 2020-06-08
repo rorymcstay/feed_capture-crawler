@@ -15,6 +15,7 @@ from src.main.actionchainimpl import CaptureCrawler
 
 
 if __name__ == '__main__':
+    dictConfig(logger_settings_dict('root'))
     logging.getLogger('conn').setLevel('WARNING')
     logging.getLogger('urllib').setLevel('WARNING')
     logging.getLogger('parser').setLevel('WARNING')
@@ -23,7 +24,7 @@ if __name__ == '__main__':
     logging.getLogger('kafka').setLevel('WARNING')
     logging.getLogger('config').setLevel('WARNING')
     logging.info("####### Environment #######")
-    logging.debug(logger_settings_dict(__name__))
+    logging.debug(logger_settings_dict('root'))
     logging.getLogger("requests").setLevel(logging.WARNING)
     logging.getLogger("kafka").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.ERROR)

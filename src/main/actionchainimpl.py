@@ -34,15 +34,16 @@ class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserServi
         sleep(3)
         logging.info(f'posting sample source of length {len(self.driver.page_source)}')
         kwargs.get('chain').nannyClient.post(f'/samplepages/setExampleSource/{name}/{actionReturn.action.position}',
-                                             data=self.driver.page_source.encode('utf-8'))
+                                             payload=self.driver.page_source.encode('utf-8'))
 
     def onChainEndCallback(self, chain: ActionChain, ret, *args, **kwargs):
         logging.info(f'chain has returned')
         chain.repeating = False
 
     def initialiseCallback(self, actionReturn: BrowserActions.Return, *args, **kwargs):
+        chain = kwargs.get("chain")
         logging.info(f'setting position=[{0}], name=[{actionReturn.name}]')
-        kwargs.get('chain').nannyClient.post(f'/samplepages/setExampleSource/{name}/0', payload=self.driver.page_source.encode('utf-8'))
+        chain.nannyClient.post(f'/samplepages/setExampleSource/{chain.name}/0', payload=self.driver.page_source.encode('utf-8'))
 
     def cleanUp(self):
         self._browser_clean_up()
