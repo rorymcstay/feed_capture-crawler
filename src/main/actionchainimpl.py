@@ -33,7 +33,7 @@ class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserServi
             return
         sleep(3)
         logging.info(f'posting sample source of length {len(self.driver.page_source)}')
-        kwargs.get('chain').nannyClient.post(f'/samplepages/setExampleSource/{name}/{actionReturn.action.position}',
+        kwargs.get('chain').nannyClient.post(f'/samplepages/setExampleSource/{actionReturn.name}/{actionReturn.action.position}',
                                              payload=self.driver.page_source.encode('utf-8'))
 
     def onChainEndCallback(self, chain: ActionChain, ret, *args, **kwargs):
