@@ -17,13 +17,12 @@ parser.add_argument('--start-browser', action='store_true', default=False)
 logging= getLogger(__name__)
 
 
-
 class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserService):
 
     def __init__(self):
         queue = f'sample-queue'
         logging.info(f'subscribing to {queue}')
-        KafkaActionSubscription.__init__(self, topic=queue, implementation=BrowserActions)
+        KafkaActionSubscription.__init__(self, queue, implementation=BrowserActions)
         BrowserService.__init__(self)
         KafkaActionPublisher.__init__(self)
 
@@ -47,3 +46,4 @@ class CaptureCrawler(KafkaActionSubscription, KafkaActionPublisher, BrowserServi
 
     def cleanUp(self):
         self._browser_clean_up()
+
